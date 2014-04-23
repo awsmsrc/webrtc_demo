@@ -25,6 +25,14 @@ $(function(){
       }
     })
 
+    socket.on('incoming_ice_candidate', function(data){
+      if(data.name != calleeName()){
+        console.log(new RTCIceCandidate(data.candidate))
+        console.log('sadfsdfsd')
+        peer.addIceCandidate(new RTCIceCandidate(data.candidate));
+      }
+    })
+
     myVid.src = URL.createObjectURL(stream);
     myVid.play();
     $('#call').click(function(){

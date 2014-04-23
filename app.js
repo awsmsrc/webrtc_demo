@@ -26,6 +26,11 @@ io.sockets.on('connection', function (socket) {
     console.log('outgoing_sdp_answer')
     io.sockets.emit('incoming_sdp_answer', data)
   });
+
+  socket.on('outgoing_ice_candidate', function (data) {
+    console.log(data)
+    io.sockets.emit('incoming_ice_candidate', data)
+  });
 });
 
 //run our webapp

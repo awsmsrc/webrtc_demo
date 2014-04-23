@@ -9,10 +9,11 @@ var createOffer = function(stream){
     myVid.play();
   };
 
-  // caller.onicecandidate = function (event) {
-  //   if (!event || !event.candidate) return;
-  //   //answerer.addIceCandidate(event.candidate);
-  // };
+  caller.onicecandidate = function (event) {
+    if (!event || !event.candidate) return;
+    console.log('candidate', event.candidate)
+    socket.emit('outgoing_ice_candidate', { name:myName(), candidate:event.candidate })
+  };
 
   caller.createOffer(function (offer) {
     caller.setLocalDescription(offer);
