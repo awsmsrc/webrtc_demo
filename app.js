@@ -1,31 +1,29 @@
-var app = require('http').createServer(handler)
-  , io = require('socket.io').listen(app)
-  , fs = require('fs')
+var express = require('express');
+var app = express();
+var http = require('http')
+var server = http.createServer(app)
+
+//express static app
+app.use(express.static(__dirname + '/public'));
+
+//socket IO
+var io = require('socket.io').listen(server)
 
 io.configure(function(){
   io.set('log level', 1)
 })
 
-function handler (req, res) {
-  fs.readFile(__dirname + '/index.html', function (err, data) {
-    if (err) {
-      res.writeHead(500);
-      return res.end('Error loading index.html');
-    }
-
-    res.writeHead(200);
-    res.end(data);
-  });
-}
 
 io.sockets.on('connection', function (socket) {
   socket.emit('connected', {})
-  socket.on('outgoing', function (data) {
-    io.sockets.emit('incoming', {
-      name:data.name
-    })
+
+  socket.on('outgoing_sdp_offer', function (data) {
+    io.sockets.emit('incoming_sdp_offer', data)
   });
 });
 
-app.listen(8080);
+//run our webapp
+console.log('Spinning up and listening on port: 8080')
+server.listen(8080);
+
 

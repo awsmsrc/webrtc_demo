@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/assets/js/shim.js"></script>
+    <script src="/assets/js/webrtc.js"></script>
+    <script src="/assets/js/app.js"></script>
+  </head>
+  <body>
+    <form>
+      <label for="name">Your name</label>
+      <input type="text" name="name" id="caller"/>
+    </form>
+    <form>
+      <label for="call">Contact</label>
+      <input type="text" id="callee"/>
+      <input type="button" value="call" id="call"/>
+    </form>
+    <video id="my_vid" autoplay controls style="width:40%;"></video>
+    <video id="their_vid" autoplay controls style="width:40%;"></video>
+    <script>
+      var myVid = document.getElementById('my_vid');
+      var theirVid = document.getElementById('their_vid');
+    </script>
+  </body>
+</html>
