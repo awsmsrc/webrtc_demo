@@ -18,7 +18,13 @@ io.sockets.on('connection', function (socket) {
   socket.emit('connected', {})
 
   socket.on('outgoing_sdp_offer', function (data) {
+    console.log('outgoing_sdp_offer')
     io.sockets.emit('incoming_sdp_offer', data)
+  });
+
+  socket.on('outgoing_sdp_answer', function (data) {
+    console.log('outgoing_sdp_answer')
+    io.sockets.emit('incoming_sdp_answer', data)
   });
 });
 

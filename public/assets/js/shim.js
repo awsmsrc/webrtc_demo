@@ -1,3 +1,5 @@
+var socket = io.connect('http://localhost');
+
 var mediaConstraints = {
   optional: [],
   mandatory: {
@@ -11,7 +13,6 @@ window.RTCSessionDescription = window.mozRTCSessionDescription || window.RTCSess
 window.RTCIceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
 navigator.getUserMedia = navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
 window.URL = window.webkitURL || window.URL;
-
 
 var getUserMedia = function(callback) {
   navigator.getUserMedia({

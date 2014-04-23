@@ -1,5 +1,7 @@
+var peer = new RTCPeerConnection(window.iceServers);
+
 var createOffer = function(stream){
-  caller = new RTCPeerConnection(window.iceServers);
+  caller = peer
   caller.addStream(stream);
 
   caller.onaddstream = function(event){
@@ -14,11 +16,12 @@ var createOffer = function(stream){
 
   caller.createOffer(function (offer) {
     caller.setLocalDescription(offer);
-    socket.emit('outgoing_sdp_offer', { name:myName(), sdp:offer.sdp })
+    socket.emit('outgoing_sdp_offer', { name:calleeName(), sdp:offer.sdp })
   }, onSdpError, mediaConstraints);
 }
 
 var receiveOffer = function(offer, stream){
+  callee = peer
   callee = new RTCPeerConnection(window.iceServers);
   callee.addStream(stream);
 
@@ -36,7 +39,16 @@ var receiveOffer = function(offer, stream){
 
   callee.createAnswer(function (answer) {
     callee.setLocalDescription(answer);
-    socket.emit('outgoing_sdp_offer', {name:myName(), sdp:anser})
+    socket.emit('outgoing_sdp_answer', {name:myName(), sdp:answer.sdp})
   }, onSdpError, mediaConstraints);
+}
+
+var receiveAnswer = function(answer){
+  console.log(answer)
+  peer.onaddstream = function (event) {
+    theirVid.src = URL.createObjectURL(event.stream);
+    theirVid.play();
+  };
+  peer.setRemoteDescription(answer)
 }
 
