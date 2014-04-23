@@ -38,17 +38,25 @@ var receiveOffer = function(offer, stream){
   callee.setRemoteDescription(offer, onSdpSucces, onSdpError);
 
   callee.createAnswer(function (answer) {
+    console.log('creating answer')
     callee.setLocalDescription(answer);
+    console.log(answer)
     socket.emit('outgoing_sdp_answer', {name:myName(), sdp:answer.sdp})
   }, onSdpError, mediaConstraints);
 }
 
 var receiveAnswer = function(answer){
   console.log(answer)
+  console.log('receiving answer')
   peer.onaddstream = function (event) {
+    console.log('onaddstream')
+    console.log(event)
+    console.log(theirVid)
     theirVid.src = URL.createObjectURL(event.stream);
     theirVid.play();
   };
-  peer.setRemoteDescription(answer)
+  console.log('setting peer')
+  peer.setRemoteDescription(answer, onSdpSucces, onSdpError);
+  console.log(peer)
 }
 

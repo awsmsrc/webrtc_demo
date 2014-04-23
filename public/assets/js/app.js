@@ -19,7 +19,7 @@ $(function(){
       if(data.name === calleeName()){
         answer = new RTCSessionDescription({
           sdp:data.sdp,
-          type:'offer'
+          type:'answer'
         })
         receiveAnswer(answer)
       }
